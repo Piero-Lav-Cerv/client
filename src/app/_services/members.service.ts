@@ -98,17 +98,19 @@ export class MembersService {
   }
 
   getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    console.log("llegue al metodo getlikes con " + predicate);
     let params = this.getPaginationHeaders(pageNumber, pageSize);
 
     params = params.append('predicate', predicate);
-
+    console.log(params);
+    console.log(this.baseUrl + 'likes');
     return this.getPaginatedResult<Member[]>(this.baseUrl + 'likes', params);
   }
 
   private getPaginatedResult<T>(url: string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
 
-    return this.http.get<T>(this.baseUrl + 'users', { observe: 'response', params }).pipe(
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
       map(response => {
         if (response.body) {
           paginatedResult.result = response.body;

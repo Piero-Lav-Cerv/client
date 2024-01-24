@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
 import { Member } from 'src/app/_modules/member';
 import { MembersService } from 'src/app/_services/members.service';
-import { Pagination, PaginatedResult } from '../../_models/pagination';
+import { Pagination } from '../../_models/pagination';
 import { UserParams } from 'src/app/_modules/userParams';
-import { AccountService } from 'src/app/_services/account.service';
-import { User } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-member-list',
@@ -21,6 +18,7 @@ export class MemberListComponent implements OnInit{
 
   constructor(private memberService: MembersService) {
     this.userParams = this.memberService.getUserParams();
+    console.log("user params: " + this.userParams);
   }
 
   ngOnInit(): void {
@@ -31,7 +29,6 @@ export class MemberListComponent implements OnInit{
   loadMembers() {
     if(this.userParams) {
       this.memberService.setUserParams(this.userParams);
-
       this.memberService.getMembers(this.userParams).subscribe({
         next: response => {
           if(response.result && response.pagination) {

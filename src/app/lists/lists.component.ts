@@ -10,20 +10,21 @@ import { Pagination } from '../_models/pagination';
 })
 export class ListsComponent implements OnInit{
   members: Member[] | undefined;
-  predicate = 'liked'
+  predicate = 'liked';
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 3;
   pagination: Pagination | undefined;
 
   constructor(private memberService: MembersService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadLikes();
   }
 
-  loadLikes() {
+   loadLikes() {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe({
       next: response => {
+        console.log(response.result);
         this.members = response.result;
         this.pagination = response.pagination;
       }
@@ -35,6 +36,7 @@ export class ListsComponent implements OnInit{
       this.pageNumber = event.page;
       this.loadLikes();
     }
+
 
   }
 }
